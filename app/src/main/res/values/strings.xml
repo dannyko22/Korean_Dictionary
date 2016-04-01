@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Korean English Dictionary</string>
+    <string name="action_settings">About Me</string>
+    <string name="title_activity_about_me">About Me</string>
+    <string name="title_activity_dictionary_item">Korean English Dictionary</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6778581968244410/5154990085</string>
+</resources>
