@@ -5,4 +5,8 @@
     <string name="title_activity_about_me">About Me</string>
     <string name="title_activity_dictionary_item">Korean English Dictionary</string>
     <string name="banner_ad_unit_id">ca-app-pub-6778581968244410/5154990085</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="enter_title">Enter Title</string>
+    <string name="enter_content">Enter Content</string>
 </resources>

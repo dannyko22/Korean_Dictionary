@@ -1,36 +1,34 @@
 package com.koreandictionary.app;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Locale;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,17 +39,15 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.millennialmedia.android.MMAdView;
-import com.millennialmedia.android.MMRequest;
-import com.millennialmedia.android.MMSDK;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DataBaseHelper myDbHelper;
     ListView listView;
     ArrayList<DictionaryData> dictList;
     MyArrayAdapter myArrayAdapter;
     EditText searchTextBox;
+    final Context context = this;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -62,10 +58,53 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Korean Dictionary");
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.clipboard);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+                Intent intent = new Intent(context, activity_notepadrecycler.class);
+                startActivityForResult(intent, 1000);
+
+            }});
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                // Do whatever you want here
+                showSoftKeyboard(searchTextBox);
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // Do whatever you want here
+                hideSoftKeyboard(searchTextBox);
+            }
+        };
+
+
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
 
         myDbHelper = new DataBaseHelper(this);
 
-        //Get ListView from activity_main.xml
+        //Get ListView from content_main.xml
         listView = (ListView) findViewById(R.id.listView);
         dictList = new ArrayList<DictionaryData>();
         dictList.add(new DictionaryData(-1, "Search"));
@@ -73,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         //setListAdapter
         listView.setAdapter(myArrayAdapter);
+
 
         initializeAdNetwork();
 
@@ -164,6 +204,46 @@ public class MainActivity extends AppCompatActivity {
         client.disconnect();
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.notepad) {
+            // Handle the notepad action
+            Intent intent = new Intent(context, activity_notepadrecycler.class);
+            startActivity(intent);
+        } else if (id == R.id.homeapps) {
+            final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://play.google.com/store/apps/developer?id=Danny%20Ko&hl=en"));
+            startActivity(intent);
+        } else if (id == R.id.rateme) {
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            //Try Google play
+            intent.setData(Uri.parse("market://details?id=com.koreandictionary.app"));
+            if (!MyStartActivity(intent)) {
+                //Market (Google play) app seems not installed, let's try to open a webbrowser
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.koreandictionary.app"));
+                if (!MyStartActivity(intent)) {
+                    //Well if this also fails, we have run out of options, inform the user.
+                    Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+        } else if (id == R.id.nav_send) {
+            Intent intent = new Intent(context, about_me.class);
+            startActivity(intent);
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+
+    }
+
 
     private class searchDictAsyncTask extends AsyncTask<String, Integer, String> {
         ArrayList<DictionaryData> dictData;
@@ -231,10 +311,35 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             aboutMenuItem();
-
+        }
+        else if (id == R.id.rate_me)
+        {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            //Try Google play
+            intent.setData(Uri.parse("market://details?id=com.koreandictionary.app"));
+            if (!MyStartActivity(intent)) {
+                //Market (Google play) app seems not installed, let's try to open a webbrowser
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.koreandictionary.app"));
+                if (!MyStartActivity(intent)) {
+                    //Well if this also fails, we have run out of options, inform the user.
+                    Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+            searchTextBox.requestFocus();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void aboutMenuItem() {
@@ -242,5 +347,38 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(new Intent(this, about_me.class));
 
+    }
+
+    private boolean MyStartActivity(Intent aIntent) {
+        try
+        {
+            startActivity(aIntent);
+            return true;
+        }
+        catch (ActivityNotFoundException e)
+        {
+            return false;
+        }
+    }
+
+    protected void hideSoftKeyboard(EditText input) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+
+    protected void showSoftKeyboard(EditText input)
+    {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);
+        searchTextBox.requestFocus();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);
+        searchTextBox.requestFocus();
     }
 }
