@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.SQLException;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -28,6 +29,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MyArrayAdapter myArrayAdapter;
     EditText searchTextBox;
     final Context context = this;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -87,18 +90,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 // Do whatever you want here
-                showSoftKeyboard(searchTextBox);
+                //showSoftKeyboard(searchTextBox);
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 // Do whatever you want here
-                hideSoftKeyboard(searchTextBox);
+                if (isKeyboardShown(searchTextBox.getRootView())) {
+                    hideSoftKeyboard();
+                }
+
             }
         };
 
-        isStoragePermissionGranted();
+        //isStoragePermissionGranted();
 
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -119,6 +125,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //setListAdapter
         listView.setAdapter(myArrayAdapter);
 
+        listView.setOnScrollListener(new AbsListView.OnScrollListener(){
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // TODO Auto-generated method stub
+
+            }
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // TODO Auto-generated method stub
+                if (isKeyboardShown(searchTextBox.getRootView())) {
+                    hideSoftKeyboard();
+                }
+
+            }
+        });
 
         initializeAdNetwork();
 
@@ -367,9 +386,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    protected void hideSoftKeyboard(EditText input) {
+    protected void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        if (imm.isAcceptingText())
+        {
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        }
     }
 
     protected void showSoftKeyboard(EditText input)
@@ -404,5 +426,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             return true;
         }
+    }
+
+    private boolean isKeyboardShown(View rootView) {
+    /* 128dp = 32dp * 4, minimum button height 32dp and generic 4 rows soft keyboard */
+        final int SOFT_KEYBOARD_HEIGHT_DP_THRESHOLD = 128;
+
+        Rect r = new Rect();
+        rootView.getWindowVisibleDisplayFrame(r);
+        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+    /* heightDiff = rootView height - status bar height (r.top) - visible frame height (r.bottom - r.top) */
+        int heightDiff = rootView.getBottom() - r.bottom;
+    /* Threshold size: dp to pixels, multiply with display density */
+        boolean isKeyboardShown = heightDiff > SOFT_KEYBOARD_HEIGHT_DP_THRESHOLD * dm.density;
+
+        Log.d("test", "isKeyboardShown ? " + isKeyboardShown + ", heightDiff:" + heightDiff + ", density:" + dm.density
+                + "root view height:" + rootView.getHeight() + ", rect:" + r);
+
+        return isKeyboardShown;
     }
 }
