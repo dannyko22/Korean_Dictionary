@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-        //isStoragePermissionGranted();
+        isStoragePermissionGranted();
 
         drawer.setDrawerListener(toggle);
         toggle.syncState();

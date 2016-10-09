@@ -457,7 +457,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.2"
-        sha1="f6708a7a12e5140ddb069075bc5c6898424e7b4c">
+        sha1="52d685edc21c1dba248b3eda411164b9fa446549">
         <dex dex="C:\Users\Danny\AndroidStudioProjects\KoreanDictionary\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_6ba6d7c37b57e91323a5c1399d5fc3fd3ab116b5\classes.dex" />
     </item>
     <item
