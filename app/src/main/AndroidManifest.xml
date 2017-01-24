@@ -16,15 +16,23 @@
             android:theme="@android:style/Theme.Translucent" >
         </activity>
         <activity
-            android:name="com.koreandictionary.app.MainActivity"
+            android:name="com.koreandictionary.app.SplashScreenActivity"
+            android:theme="@style/SplashTheme"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.koreandictionary.app.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/app_name" >
+        </activity>
+
         <activity
             android:name="com.koreandictionary.app.about_me"
             android:label="@string/title_activity_about_me"

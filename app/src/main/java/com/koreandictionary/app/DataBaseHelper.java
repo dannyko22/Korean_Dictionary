@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -103,6 +104,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             File myFile = myContext.getDatabasePath(DB_NAME);
             checkDB = SQLiteDatabase.openDatabase(myFile.getPath(), null, SQLiteDatabase.OPEN_READONLY);
 
+
         }catch(SQLiteException e){
 
 //database does't exist yet.
@@ -155,7 +157,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String myPath = DB_PATH + DB_NAME;
         File myFile = myContext.getDatabasePath(DB_NAME);
         myDataBase = SQLiteDatabase.openDatabase(myFile.getPath(), null, SQLiteDatabase.OPEN_READONLY);
-
+        Log.v("version=", String.valueOf(myDataBase.getVersion()));
     }
 
     @Override
@@ -190,6 +192,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<DictionaryData> items = new ArrayList<DictionaryData>();
 
         searchText = searchText.trim();
+
+
 
         // if there is a search text
         if (searchText.isEmpty() == false)

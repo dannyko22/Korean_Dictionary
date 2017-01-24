@@ -41,11 +41,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.kobakei.ratethisapp.RateThisApp;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MyArrayAdapter myArrayAdapter;
     EditText searchTextBox;
     final Context context = this;
+    private InterstitialAd interstitial;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -116,11 +120,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         myDbHelper = new DataBaseHelper(this);
 
+        initializeAdNetwork();
+
         //Get ListView from content_main.xml
         listView = (ListView) findViewById(R.id.listView);
         dictList = new ArrayList<DictionaryData>();
         dictList.add(new DictionaryData(-1, "Search"));
-        myArrayAdapter = new MyArrayAdapter(this, dictList, "");
+        myArrayAdapter = new MyArrayAdapter(this, dictList, "", interstitial);
 
         //setListAdapter
         listView.setAdapter(myArrayAdapter);
@@ -139,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //initializeAdNetwork();
+
 
         try {
 
@@ -181,12 +187,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+
+        RateThisApp.Config config = new RateThisApp.Config(2,2);
+        config.setUrl("market://details?id=com.torontotraffic.app");
+        RateThisApp.init(config);
+        RateThisApp.showRateDialogIfNeeded(this);
     }
 
     private void initializeAdNetwork() {
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        // Prepare the Interstitial Ad
+        interstitial = new InterstitialAd(this);
+        // Insert the Ad Unit ID
+        interstitial.setAdUnitId(getString(R.string.admob_interstitial_id));
+
+        interstitial.loadAd(adRequest);
+        // Prepare an Interstitial Ad Listener
+//        interstitial.setAdListener(new AdListener() {
+//            public void onAdLoaded() {
+//                // Call displayInterstitial() function
+//                displayInterstitial();
+//            }
+//        });
     }
 
     @Override
@@ -300,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 textViewResults.setText("0 results");
             }
 
-            myArrayAdapter = new MyArrayAdapter(MainActivity.this, dictList, searchTextBox.getText().toString());
+            myArrayAdapter = new MyArrayAdapter(MainActivity.this, dictList, searchTextBox.getText().toString(), interstitial);
             listView.setAdapter(myArrayAdapter);
             myArrayAdapter.notifyDataSetChanged();
             listView.invalidateViews();
@@ -444,5 +474,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 + "root view height:" + rootView.getHeight() + ", rect:" + r);
 
         return isKeyboardShown;
+    }
+
+    public void displayInterstitial() {
+        // If Ads are loaded, show Interstitial else show nothing.
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
     }
 }

@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 11
         targetSdkVersion 24
-        versionCode 12
-        versionName "12.0"
+        versionCode 17
+        versionName "17.0"
         multiDexEnabled true
     }
 
@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'io.github.kobakei:ratethisapp:1.1.1'
 }

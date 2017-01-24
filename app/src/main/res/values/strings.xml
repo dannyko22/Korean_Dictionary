@@ -4,7 +4,14 @@
     <string name="action_settings">About Me</string>
     <string name="title_activity_about_me">About Me</string>
     <string name="title_activity_dictionary_item">Korean English Dictionary</string>
+
+    <!--<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
+    <!--<string name="admob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>-->
+
     <string name="banner_ad_unit_id">ca-app-pub-6778581968244410/5154990085</string>
+    <string name="admob_interstitial_id">ca-app-pub-6778581968244410/7733859685</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="enter_title">Enter Title</string>

@@ -232,7 +232,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.2"
-        sha1="61c9d5c5e85e433e7395674a33a280d459f81697">
+        sha1="df676b0dd81da79c2bdc7cc1b4e00e35d48e0dd8">
         <dex dex="C:\Users\Danny\AndroidStudioProjects\KoreanDictionary\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_6ba6d7c37b57e91323a5c1399d5fc3fd3ab116b5\classes.dex" />
     </item>
     <item
@@ -466,7 +466,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.2"
-        sha1="484118a50d5ef73cd3d9940c8c335b03b8317c6c">
+        sha1="c9bc0ac326506e9fbe17bb93168e30047c5d431c">
         <dex dex="C:\Users\Danny\AndroidStudioProjects\KoreanDictionary\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_438b493a2c2d5e44bca800309b41265b89d1c35a\classes.dex" />
     </item>
     <item
@@ -576,6 +576,15 @@
         revision="23.0.2"
         sha1="0cae6511c5705869cacf199f8abb0ea84cd10157">
         <dex dex="C:\Users\Danny\AndroidStudioProjects\KoreanDictionary\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-9.6.1_7ba2133b468f345568c9d0a4a10785b15d9ec1cc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Danny\AndroidStudioProjects\KoreanDictionary\app\build\intermediates\exploded-aar\io.github.kobakei\ratethisapp\1.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="88ec13bfff13da9404bc5aebfe09c2733b2e550e">
+        <dex dex="C:\Users\Danny\AndroidStudioProjects\KoreanDictionary\app\build\intermediates\transforms\dex\debug\folders\1000\10\io.github.kobakei-ratethisapp-1.1.1_2fa9afa95b5d3113763711713769f962a65c50c3\classes.dex" />
     </item>
     <item
         is-multidex="true"

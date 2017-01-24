@@ -153,6 +153,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.6.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-storage-common/9.6.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-storage/9.6.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/io.github.kobakei/ratethisapp/1.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-runtime-classes" />
@@ -230,6 +231,7 @@
     <orderEntry type="library" exported="" name="play-services-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-analytics-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-iid-9.6.1" level="project" />
+    <orderEntry type="library" exported="" name="ratethisapp-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-auth-base-9.6.1" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-24.2.1" level="project" />
