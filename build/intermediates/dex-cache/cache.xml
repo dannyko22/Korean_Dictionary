@@ -232,7 +232,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.2"
-        sha1="df676b0dd81da79c2bdc7cc1b4e00e35d48e0dd8">
+        sha1="1c37ef1cf2e7ddcd99457f13362900acb666ae9b">
         <dex dex="C:\Users\Danny\AndroidStudioProjects\KoreanDictionary\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_6ba6d7c37b57e91323a5c1399d5fc3fd3ab116b5\classes.dex" />
     </item>
     <item
@@ -466,7 +466,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.2"
-        sha1="c9bc0ac326506e9fbe17bb93168e30047c5d431c">
+        sha1="833777ee6a8afbe28ee3b066e14d518d0c18eaa9">
         <dex dex="C:\Users\Danny\AndroidStudioProjects\KoreanDictionary\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_438b493a2c2d5e44bca800309b41265b89d1c35a\classes.dex" />
     </item>
     <item
